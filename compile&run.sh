@@ -1,7 +1,7 @@
 #/bin/bash
 
+rm CG1
 cd source
-rm CG1.out
 gcc *.c -liup -liupgl -lm -lGL -lGLU 
 mv a.out ../CG1
 cd ..
