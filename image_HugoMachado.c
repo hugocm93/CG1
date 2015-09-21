@@ -126,7 +126,7 @@ static int getlong(FILE *input, long int *longint)
 	if (got != 4) return 0;
 
 	templongint = ((long int)(temp[3])<<24) | ((long int)(temp[2])<<16)
-    												  | ((long int)(temp[1])<<8) | ((long int)(temp[0]));
+    														  | ((long int)(temp[1])<<8) | ((long int)(temp[0]));
 
 	*longint = templongint;
 
@@ -202,7 +202,7 @@ static int getdword(FILE *input, unsigned long int *dword)
 	if (got != 4) return 0;
 
 	tempdword = ((unsigned long int)(temp[3])<<24) | ((unsigned long int)(temp[2])<<16)
-    												  | ((unsigned long int)(temp[1])<<8) | ((unsigned long int)(temp[0]));
+    														  | ((unsigned long int)(temp[1])<<8) | ((unsigned long int)(temp[0]));
 
 	*dword = tempdword;
 
@@ -981,7 +981,7 @@ Image* imgEdges(Image* imgIn)
 	/* arruma a imagem */
 	for (y=0;y<h;y++) {
 		for (x=0;x<w;x++) {
-			int k=y*w+x;
+			//int k=y*w+x;
 			if ((y==0)||(y==(h-1))||(x==0)||(x==(w-1))) /* borda */
 				imgOut_buf[x]=0.f;
 			else
@@ -1106,6 +1106,30 @@ Image* imgEroded( Image* image)
 
 	return temp;
 }
+
+int count(Image *image){
+
+	//do processing
+
+
+	//count
+	int w = imgGetWidth(image);
+	int h = imgGetHeight(image);
+	int i, j;
+	int n;
+	int *label = (int *)malloc(h * w * sizeof(int));
+
+	for(i=0;i<w;i++){
+		for(j=0; j<h;j++){
+			n =  i * w + j;
+			label[n] = 0;
+		}
+	}
+
+	printf("count");
+	return -1;
+}
+
 
 
 

@@ -200,10 +200,12 @@ int dilate_cb(void)
 
 int count_cb(void)
 {
+	int n = 0;
 	if(gc.image == NULL){
 		return IUP_DEFAULT;
 	}
-
+	n = count(gc.image);
+	IupMessagef("Result", "%d items", n);
 	IupSetfAttribute(gc.msgbar, "TITLE", "Count call back");
 	repaint_cb(gc.canvas);   /* repaint canvas */
 	return IUP_DEFAULT;

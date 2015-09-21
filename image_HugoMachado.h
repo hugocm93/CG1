@@ -173,7 +173,7 @@ void imgGetPixel3ubv(Image* image, int x, int y, unsigned char *color);
  *
  *	@return retorna 1 caso nao haja erros.
  */
-imgWriteBMP(char *filename, Image* bmp);
+int imgWriteBMP(char *filename, Image* bmp);
 
 /**
  *	Le a imagem a partir do arquivo especificado.
@@ -261,7 +261,7 @@ Image* imgBinary(Image* img_cgrey);
 
 Image* imgEroded(Image* img);
 Image* imgDilated(Image* img);
-
+int count(Image* img);
 
 #endif
 
