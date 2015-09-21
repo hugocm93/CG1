@@ -1272,6 +1272,8 @@ int count2(Image *image){
 		image = imgEroded(image);
 		imgMedian(image);
 		imgMedian(image);
+		imgMedian(image);
+		imgMedian(image);
 		current = count(image);
 		if(current>max){
 			max = current;
