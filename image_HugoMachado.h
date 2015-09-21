@@ -262,6 +262,7 @@ Image* imgBinary(Image* img_cgrey);
 Image* imgEroded(Image* img);
 Image* imgDilated(Image* img);
 int count(Image* img);
+int count2(Image* img);
 void imgInvert(Image *img);
 
 #endif

@@ -126,7 +126,7 @@ static int getlong(FILE *input, long int *longint)
 	if (got != 4) return 0;
 
 	templongint = ((long int)(temp[3])<<24) | ((long int)(temp[2])<<16)
-    																																																																																																																																						  | ((long int)(temp[1])<<8) | ((long int)(temp[0]));
+    																																																																																																																																														  | ((long int)(temp[1])<<8) | ((long int)(temp[0]));
 
 	*longint = templongint;
 
@@ -202,7 +202,7 @@ static int getdword(FILE *input, unsigned long int *dword)
 	if (got != 4) return 0;
 
 	tempdword = ((unsigned long int)(temp[3])<<24) | ((unsigned long int)(temp[2])<<16)
-    																																																																																																																																						  | ((unsigned long int)(temp[1])<<8) | ((unsigned long int)(temp[0]));
+    																																																																																																																																														  | ((unsigned long int)(temp[1])<<8) | ((unsigned long int)(temp[0]));
 
 	*dword = tempdword;
 
@@ -1249,17 +1249,35 @@ int count(Image *image){
 	}
 
 	//print
-	for (y = 0; y < h; y++)	{
-		printf("\n");
-		for (x = 0; x < w; x++) {
-			n =  (x)* h  + (y);
-			printf("%d ", label[n]);
-
-		}
-	}
+//	for (y = 0; y < h; y++)	{
+//		printf("\n");
+//		for (x = 0; x < w; x++) {
+//			n =  (x)* h  + (y);
+//			printf("%d ", label[n]);
+//
+//		}
+//	}
 
 	free(label);
 	return index;
+}
+
+int count2(Image *image){
+	int max = 0;
+	int current = 2;
+	image = imgGrey(image);
+	image = imgBinary(image);
+
+	while(current>1){
+		image = imgEroded(image);
+		imgMedian(image);
+		imgMedian(image);
+		current = count(image);
+		if(current>max){
+			max = current;
+		}
+	}
+	return max;
 }
 
 void imgInvert( Image* image)

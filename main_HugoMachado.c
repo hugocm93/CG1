@@ -289,6 +289,19 @@ int invert_cb(void)
 		return IUP_DEFAULT;
 }
 
+int ac_cb(void)
+{
+	int n = 0;
+	if(gc.image == NULL){
+		return IUP_DEFAULT;
+	}
+	n = count2(gc.image);
+	IupMessagef("Result", "%d items", n);
+	IupSetfAttribute(gc.msgbar, "TITLE", "Count call back");
+	repaint_cb(gc.canvas);   /* repaint canvas */
+	return IUP_DEFAULT;
+}
+
 
 //End: Modified functions
 
@@ -304,17 +317,18 @@ Ihandle* InitToolbar(void)
 	/* Create four buttons */
 	Ihandle* load=IupSButton("img/file_open.bmp","load a BMP image file",(Icallback) load_cb);
 	Ihandle* binary=IupSButton("img/binary.bmp","convert RGB to binary image callback function",(Icallback)binary_cb);
-	Ihandle* erode = IupSButton("img/erode.bmp", "Write your tip here...", (Icallback)erode_cb);
-	Ihandle* dilate = IupSButton("img/dilate.bmp", "Write your tip here...", (Icallback)dilate_cb);
-	Ihandle* count = IupSButton("img/count.bmp", "Write your tip here...", (Icallback)count_cb);
+	Ihandle* erode = IupSButton("img/erode.bmp", "Erode", (Icallback)erode_cb);
+	Ihandle* dilate = IupSButton("img/dilate.bmp", "Dilate", (Icallback)dilate_cb);
+	Ihandle* count = IupSButton("img/count.bmp", "Count", (Icallback)count_cb);
 	Ihandle* save = IupSButton("img/file_save.bmp", "save image in a BMP file", (Icallback)save_cb);
 	Ihandle* reset = IupSButton("reset_Hugo.bmp", "reset image", (Icallback)reset_cb);
 	Ihandle* gauss = IupSButton("gauss_Hugo.bmp", "Gauss ", (Icallback)gauss_cb);
 	Ihandle* median = IupSButton("median_Hugo.bmp", "Median", (Icallback)median_cb);
 	Ihandle* edge = IupSButton("edge_Hugo.bmp", "Edge", (Icallback)edge_cb);
 	Ihandle* invert = IupSButton("invert_Hugo.bmp", "Invert", (Icallback)invert_cb);
+	Ihandle* ac = IupSButton("ac_Hugo.bmp", "Auto count", (Icallback)ac_cb);
 
-	toolbar=IupHbox(load,save,binary,erode,dilate,count, reset, gauss, median, edge, invert, NULL);
+	toolbar=IupHbox(load,save,binary,erode,dilate,count, reset, gauss, median, edge, invert, ac, NULL);
 
 	return toolbar;
 }
