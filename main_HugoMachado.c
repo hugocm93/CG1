@@ -277,6 +277,18 @@ int reset_cb(void)
 	return IUP_DEFAULT;
 }
 
+int invert_cb(void)
+{
+	if(gc.image == NULL){
+			return IUP_DEFAULT;
+		}
+		IupSetfAttribute(gc.msgbar, "TITLE", "Invert call back");
+		imgInvert(gc.image);
+		repaint_cb(gc.canvas);   /* repaint canvas */
+		IupSetfAttribute(gc.msgbar, "TITLE", "Invert call back");
+		return IUP_DEFAULT;
+}
+
 
 //End: Modified functions
 
@@ -300,8 +312,9 @@ Ihandle* InitToolbar(void)
 	Ihandle* gauss = IupSButton("gauss_Hugo.bmp", "Gauss ", (Icallback)gauss_cb);
 	Ihandle* median = IupSButton("median_Hugo.bmp", "Median", (Icallback)median_cb);
 	Ihandle* edge = IupSButton("edge_Hugo.bmp", "Edge", (Icallback)edge_cb);
+	Ihandle* invert = IupSButton("invert_Hugo.bmp", "Invert", (Icallback)invert_cb);
 
-	toolbar=IupHbox(load,save,binary,erode,dilate,count, reset, gauss, median, edge, NULL);
+	toolbar=IupHbox(load,save,binary,erode,dilate,count, reset, gauss, median, edge, invert, NULL);
 
 	return toolbar;
 }

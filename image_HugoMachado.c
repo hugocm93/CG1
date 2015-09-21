@@ -126,7 +126,7 @@ static int getlong(FILE *input, long int *longint)
 	if (got != 4) return 0;
 
 	templongint = ((long int)(temp[3])<<24) | ((long int)(temp[2])<<16)
-    														  | ((long int)(temp[1])<<8) | ((long int)(temp[0]));
+    																																																																																																																																						  | ((long int)(temp[1])<<8) | ((long int)(temp[0]));
 
 	*longint = templongint;
 
@@ -202,7 +202,7 @@ static int getdword(FILE *input, unsigned long int *dword)
 	if (got != 4) return 0;
 
 	tempdword = ((unsigned long int)(temp[3])<<24) | ((unsigned long int)(temp[2])<<16)
-    														  | ((unsigned long int)(temp[1])<<8) | ((unsigned long int)(temp[0]));
+    																																																																																																																																						  | ((unsigned long int)(temp[1])<<8) | ((unsigned long int)(temp[0]));
 
 	*dword = tempdword;
 
@@ -373,7 +373,7 @@ void imgSetPixel3f(Image* image, int x, int y, float R, float G, float B)
 	}
 }
 
-void imgGetPixel3fv(Image* image, int x, int y, float* color)
+int imgGetPixel3fv(Image* image, int x, int y, float* color)
 {
 	int pos = (y*image->width*image->dcs) + (x*image->dcs);
 	switch (image->dcs) {
@@ -390,6 +390,8 @@ void imgGetPixel3fv(Image* image, int x, int y, float* color)
 	default:
 		break;
 	}
+
+	return 1;
 }
 
 
@@ -1111,23 +1113,174 @@ int count(Image *image){
 
 	//do processing
 
-
 	//count
 	int w = imgGetWidth(image);
 	int h = imgGetHeight(image);
-	int i, j;
+	int i, j, x, y ;
 	int n;
 	int *label = (int *)malloc(h * w * sizeof(int));
+	float  cor[3];
+	int labels[4];
+	float aux1[3];
+	float aux2[3];
+	float aux3[3];
+	float aux4[3];
+	int var = 0;
+	int numbers[4000];
+	int index = 0;
 
+	//set Label matrix
 	for(i=0;i<w;i++){
 		for(j=0; j<h;j++){
-			n =  i * w + j;
+			n =  i * h + j;
 			label[n] = 0;
 		}
 	}
 
-	printf("count");
-	return -1;
+	//label the entire matrix
+	for (y = 1; y < h-1; y++)	{
+		for (x = 1; x < w-1; x++) {
+
+			imgGetPixel3fv(image, x, y, cor);
+			if(cor[0] == BLACK){
+				continue;
+			}
+
+			n =  (x-1) * h + (y);
+			labels[0] = label[n];
+			imgGetPixel3fv(image, x-1, y, aux1);
+
+			n =  (x-1) * h + (y-1);
+			labels[1] = label[n];
+			imgGetPixel3fv(image, x-1, y-1, aux2);
+
+			n =  (x) * h + (y-1);
+			labels[2] = label[n];
+			imgGetPixel3fv(image, x, y-1, aux3);
+
+			n =  (x+1) * h + (y-1);
+			labels[3] = label[n];
+			imgGetPixel3fv(image, x+1, y-1, aux4);
+
+			if(aux1[0] == BLACK && aux2[0] == BLACK && aux3[0] == BLACK && aux4[0] == BLACK){
+				n =  (x) * h + (y);
+				label[n] = ++var;
+			}
+
+			else{
+				if(aux1[0] == WHITE && aux2[0] == WHITE && aux3[0] == WHITE && aux4[0] == WHITE){
+					n =  (x) * h + (y);
+					label[n] = labels[0];
+				}
+				else{
+					if(aux4[0] == WHITE){
+						n =  (x) * h + (y);
+						label[n] = labels[3];
+
+					}
+					if(aux3[0] == WHITE){
+						n =  (x) * h + (y);
+						label[n] = labels[2];
+					}
+					if(aux2[0] == WHITE){
+						n =  (x) * h + (y);
+						label[n] = labels[1];
+					}
+					if(aux1[0] == WHITE){
+						n =  (x) * h + (y);
+						label[n] = labels[0];
+					}
+				}
+			}
+		}
+
+	}
+
+	//Set equivalences
+	for (x = 1; x < w-1; x++) {
+		for (y = 1; y < h-1; y++)	{
+
+			imgGetPixel3fv(image, x, y, cor);
+			if(cor[0] == WHITE){
+
+				int auxLabel = 0;
+				n = (x) * h + (y);
+				auxLabel = label[n];
+
+				for(j=0;j<3;j++){
+					for(i=0;i<3;i++){
+
+						imgGetPixel3fv(image, x+i-1, y+j-1, aux1);
+						if(aux1[0] == WHITE){
+							n =  (x+i-1) * h + (y+j-1);
+							label[n] = auxLabel;
+						}
+
+					}
+				}
+			}
+		}
+	}
+
+	//count connected components
+	for (y = 0; y < h; y++)	{
+		for (x = 0; x < w; x++) {
+			imgGetPixel3fv(image, x, y, cor);
+			if(cor[0] == BLACK){
+				continue;
+			}
+
+			int l;
+			int flag = 0;
+			n =  (x)* h  + (y);
+
+			for(l=0;l<=index;l++){
+				if(numbers[l]==label[n]){
+					flag = 1;
+					break;
+				}
+
+			}
+			if(flag==0){
+				numbers[++index] = label[n];
+			}
+
+		}
+	}
+
+	//print
+	for (y = 0; y < h; y++)	{
+		printf("\n");
+		for (x = 0; x < w; x++) {
+			n =  (x)* h  + (y);
+			printf("%d ", label[n]);
+
+		}
+	}
+
+	free(label);
+	return index;
+}
+
+void imgInvert( Image* image)
+{
+	int w = imgGetWidth(image);
+	int h = imgGetHeight(image);
+	float  white[3] = { 1, 1, 1 };
+	float  black[3] = { 0, 0, 0 };
+	float  cor[3];
+	int    x, y;
+
+	for (y = 0; y < h; y++)	{
+		for (x = 0; x < w; x++) {
+			imgGetPixel3fv(image, x, y, cor);
+			if (cor[0] == WHITE)
+				imgSetPixel3fv(image, x, y, black);
+			else
+				imgSetPixel3fv(image, x, y, white);
+		}
+	}
+
 }
 
 

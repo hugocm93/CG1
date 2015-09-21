@@ -151,7 +151,7 @@ void imgSetPixel3ubv(Image* image, int x, int y, unsigned char * color);
  *	@param y Posicao y na imagem.
  *	@param color [out] Pixel da posicao especificada(valor em float [0,1]).
  */
-void imgGetPixel3fv(Image* image, int x, int y, float* color);
+int imgGetPixel3fv(Image* image, int x, int y, float* color);
 void imgGetPixel3f(Image* image, int x, int y, float* R, float* G, float* B);
 
 /**
@@ -262,6 +262,7 @@ Image* imgBinary(Image* img_cgrey);
 Image* imgEroded(Image* img);
 Image* imgDilated(Image* img);
 int count(Image* img);
+void imgInvert(Image *img);
 
 #endif
 
