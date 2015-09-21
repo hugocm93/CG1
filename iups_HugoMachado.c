@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "iups.h"
+#include "iups_HugoMachado.h"
 
 
 
@@ -19,6 +19,21 @@ char* IupSelectFile( char* title, char* ext, char* tip )
   IupSetAttribute(getfile, IUP_FILTER, ext );
   IupSetAttribute(getfile, IUP_FILTERINFO, tip );
   IupPopup(getfile, IUP_CENTER, IUP_CENTER); 
+
+  filename = IupGetAttribute(getfile, IUP_VALUE);
+  return filename;
+}
+
+char* IupSelectFileSave( char* title, char* ext, char* tip )
+{
+  Ihandle* getfile = IupFileDlg();
+  char* filename = NULL;
+
+  IupSetAttribute(getfile, IUP_TITLE, title  );
+  IupSetAttribute(getfile, IUP_DIALOGTYPE, IUP_SAVE);
+  IupSetAttribute(getfile, IUP_FILTER, ext );
+  IupSetAttribute(getfile, IUP_FILTERINFO, tip );
+  IupPopup(getfile, IUP_CENTER, IUP_CENTER);
 
   filename = IupGetAttribute(getfile, IUP_VALUE);
   return filename;

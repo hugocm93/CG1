@@ -18,7 +18,7 @@
 *   The spirit of this license is that you are free to use the libraries for any purpose at no cost without having to ask us. 
 *   The only requirement is that if you do use them, then you should give us credit by including the copyright notice below somewhere in your product or its documentation. 
 *   
-*   Copyright © 2010-2015 DI PUC-Rio Educational Software
+*   Copyright ï¿½ 2010-2015 DI PUC-Rio Educational Software
 *
 *   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software 
 *   without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sub license, and/or sell copies of the Software, and to permit 
@@ -34,6 +34,9 @@
 
 #ifndef IMAGE_H
 #define IMAGE_H
+
+#define WHITE 1
+#define BLACK 0
 
 
 /************************************************************************/
@@ -251,6 +254,13 @@ Image* imgEdges(Image* image);
 *   @return Handle para a image de luminosidade com dois tons 0 e 1 (B&W).
 **/
 Image* imgBinary(Image* img_cgrey);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//These functions were added by Hugo
+
+Image* imgEroded(Image* img);
+Image* imgDilated(Image* img);
 
 
 #endif

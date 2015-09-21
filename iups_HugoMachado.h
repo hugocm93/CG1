@@ -27,3 +27,8 @@ Ihandle* IupSMessageBar(char* initial_message, int height );
 
 /* Simple dialog */
 Ihandle* IupSDialog(char* title, Ihandle* content,  Icallback exit_cb, char* resize);
+
+
+
+// The following functions were added by Hugo
+char* IupSelectFileSave( char* title, char* ext, char* tip );

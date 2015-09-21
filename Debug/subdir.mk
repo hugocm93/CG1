@@ -4,19 +4,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../image_Fulano_Beltrano.c \
-../iups.c \
-../main_Fulano_Beltrano.c 
+../image_HugoMachado.c \
+../iups_HugoMachado.c \
+../main_HugoMachado.c 
 
 OBJS += \
-./image_Fulano_Beltrano.o \
-./iups.o \
-./main_Fulano_Beltrano.o 
+./image_HugoMachado.o \
+./iups_HugoMachado.o \
+./main_HugoMachado.o 
 
 C_DEPS += \
-./image_Fulano_Beltrano.d \
-./iups.d \
-./main_Fulano_Beltrano.d 
+./image_HugoMachado.d \
+./iups_HugoMachado.d \
+./main_HugoMachado.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
